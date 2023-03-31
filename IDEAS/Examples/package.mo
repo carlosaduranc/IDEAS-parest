@@ -1,5 +1,5 @@
 within IDEAS;
-package Examples "IDEAS Examples"
+package Examples "IDEAS Examples examples"
 
 
 extends Modelica.Icons.ExamplesPackage;
