@@ -16,8 +16,7 @@ model SingleZoneResidentialHydronicHeatPump
   parameter Real scalingFactor = 4 "Factor to scale up the model area";
   parameter Real nOccupants = 5 "Number of occupants";
 
-  inner IDEAS.BoundaryConditions.SimInfoManager       sim
-    "Simulation information manager for climate data"
+  inner IDEAS.BoundaryConditions.SimInfoManager       sim "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{-240,160},{-220,180}})));
 
   IDEAS.Buildings.Validation.Cases.Case900Template case900Template(
