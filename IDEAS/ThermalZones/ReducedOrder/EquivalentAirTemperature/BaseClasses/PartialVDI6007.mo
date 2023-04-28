@@ -2,18 +2,18 @@ within IDEAS.ThermalZones.ReducedOrder.EquivalentAirTemperature.BaseClasses;
 partial model PartialVDI6007
   "Partial model for equivalent air temperature as defined in VDI 6007 Part 1"
 
-  input Modelica.Units.SI.Emissivity aExt
+  parameter Modelica.Units.SI.Emissivity aExt
     "Coefficient of absorption of exterior walls (outdoor)";
   parameter Integer n "Number of orientations (without ground)";
   parameter Real wfWall[n](each final unit="1") "Weight factors of the walls";
   parameter Real wfWin[n](each final unit="1") "Weight factors of the windows";
   parameter Real wfGro(unit="1")
     "Weight factor of the ground (0 if not considered)";
-  input Modelica.Units.SI.Temperature TGro
+  parameter Modelica.Units.SI.Temperature TGro
     "Temperature of the ground in contact with floor plate";
-  input Modelica.Units.SI.CoefficientOfHeatTransfer hConWallOut
+  parameter Modelica.Units.SI.CoefficientOfHeatTransfer hConWallOut
     "Exterior walls convective coefficient of heat transfer (outdoor)";
-  input Modelica.Units.SI.CoefficientOfHeatTransfer hRad
+  parameter Modelica.Units.SI.CoefficientOfHeatTransfer hRad
     "Coefficient of heat transfer for linearized radiation";
   parameter Boolean withLongwave=true
     "Set to true to include longwave radiation exchange"

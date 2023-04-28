@@ -18,7 +18,7 @@ model TemperatureTwoPort "Ideal two port temperature sensor"
   parameter Boolean transferHeat = false
     "if true, temperature T converges towards TAmb when no flow"
     annotation(Evaluate=true, Dialog(group="Heat transfer"));
-  input Modelica.Units.SI.Temperature TAmb=Medium.T_default
+  parameter Modelica.Units.SI.Temperature TAmb=Medium.T_default
     "Fixed ambient temperature for heat transfer"
     annotation (Dialog(enable=transferHeat, group="Heat transfer"));
   parameter Modelica.Units.SI.Time tauHeaTra(min=1) = 1200

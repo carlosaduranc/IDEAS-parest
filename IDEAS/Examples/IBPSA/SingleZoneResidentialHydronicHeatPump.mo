@@ -5,18 +5,19 @@ model SingleZoneResidentialHydronicHeatPump
   package MediumWater = IDEAS.Media.Water "Water medium";
   package MediumAir = IDEAS.Media.Air(extraPropertiesNames={"CO2"}) "Air medium";
   package MediumGlycol = IDEAS.Media.Antifreeze.PropyleneGlycolWater (property_T=273.15, X_a = 0.5) "Glycol medium";
-  input Modelica.Units.SI.Temperature TSetCooUno=273.15 + 30
+  parameter Modelica.Units.SI.Temperature TSetCooUno=273.15 + 30
     "Unoccupied cooling setpoint" annotation (Dialog(group="Setpoints"));
-  input Modelica.Units.SI.Temperature TSetCooOcc=273.15 + 24
+  parameter Modelica.Units.SI.Temperature TSetCooOcc=273.15 + 24
     "Occupied cooling setpoint" annotation (Dialog(group="Setpoints"));
-  input Modelica.Units.SI.Temperature TSetHeaUno=273.15 + 15
+  parameter Modelica.Units.SI.Temperature TSetHeaUno=273.15 + 15
     "Unoccupied heating setpoint" annotation (Dialog(group="Setpoints"));
-  input Modelica.Units.SI.Temperature TSetHeaOcc=273.15 + 21
+  parameter Modelica.Units.SI.Temperature TSetHeaOcc=273.15 + 21
     "Occupied heating setpoint" annotation (Dialog(group="Setpoints"));
   parameter Real scalingFactor = 4 "Factor to scale up the model area";
   parameter Real nOccupants = 5 "Number of occupants";
 
-  inner IDEAS.BoundaryConditions.SimInfoManager       sim "Simulation information manager for climate data"
+  inner IDEAS.BoundaryConditions.SimInfoManager       sim
+    "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{-240,160},{-220,180}})));
 
   IDEAS.Buildings.Validation.Cases.Case900Template case900Template(
