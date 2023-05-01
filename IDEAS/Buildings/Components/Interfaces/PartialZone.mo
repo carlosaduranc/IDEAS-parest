@@ -61,7 +61,7 @@ model PartialZone "Building zone model"
   parameter Boolean simVieFac=false "Simplify view factor computation"
     annotation(Dialog(tab="Advanced", group="Radiative heat exchange"));
 
-  replaceable ZoneAirModels.WellMixedAir airModel
+  replaceable ZoneAirModels.WellMixedAir airModel(energyDynamics = Modelica.Fluid.Types.Dynamics.SteadyStateInitial)
   constrainedby
     IDEAS.Buildings.Components.ZoneAirModels.BaseClasses.PartialAirModel(
     redeclare package Medium = Medium,
