@@ -92,7 +92,7 @@ partial model RectangularZoneTemplateInterface
   parameter Modelica.Units.SI.Area AZone=w*l
     "Parameter to overwrite the zone surface area"
     annotation (Dialog(tab="Advanced", group="Overwrite"));
-  input Modelica.Units.SI.Area ACei=w*l
+  parameter Modelica.Units.SI.Area ACei=w*l
     "Surface of roof or ceiling (including potential windows)"
     annotation (Dialog(tab="Ceiling", group="Overwrite"));
 
