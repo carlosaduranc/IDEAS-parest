@@ -8,6 +8,10 @@ Modelica.Blocks.Interfaces.RealInput UWin(start=2.1);
 Modelica.Units.SI.Temperature TZon(start=273.15+20);
 Modelica.Units.SI.TemperatureSlope der_TZon(start=0);
 
+// Check weatherdata as states
+Modelica.Units.SI.Angle altAng(start=0);
+Modelica.Units.SI.AngularVelocity der_altAng(start=0);
+
 // Weather data as input
 Modelica.Blocks.Interfaces.RealInput pAtm_in(start=101325);
 Modelica.Blocks.Interfaces.RealInput TDryBul_in(start=293.15);
@@ -38,5 +42,8 @@ IDEAS.ThermalZones.ReducedOrder.Examples.SimpleRoomOneElement mod(corGDouPan(UWi
 equation
 TZon = mod.thermalZoneOneElement.TAir;
 der_TZon = der(TZon);
+
+altAng = mod.weaDat.altAng_out;
+der_altAng = der(altAng);
 
 end wrapper_SimpleRoomOneElement;
