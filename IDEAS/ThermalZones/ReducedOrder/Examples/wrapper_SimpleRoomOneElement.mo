@@ -24,8 +24,16 @@ Modelica.Blocks.Interfaces.RealInput ceiHei_in(start=20000);
 Modelica.Blocks.Interfaces.RealInput totSkyCov_in(start=0.5);
 Modelica.Blocks.Interfaces.RealInput opaSkyCov_in(start=0.5);
 
+Modelica.Blocks.Interfaces.RealInput perRad_QFlow(start=0.0);
+Modelica.Blocks.Interfaces.RealInput perCon_QFlow(start=0.0);
+Modelica.Blocks.Interfaces.RealInput macConv_QFlow(start=0.0);
+
 IDEAS.ThermalZones.ReducedOrder.Examples.SimpleRoomOneElement mod(corGDouPan(UWin=UWin),
-  weaDat(pAtm_in=pAtm_in, TDryBul_in=TDryBul_in, TDewPoi_in=TDewPoi_in, TBlaSky_in=TBlaSky_in, relHum_in=relHum_in, winSpe_in=winSpe_in, winDir_in=winDir_in, HInfHor_in=HInfHor_in, HGloHor_in=HGloHor_in, HDifHor_in=HDifHor_in, HDirNor_in=HDirNor_in, ceiHei_in=ceiHei_in, totSkyCov_in=totSkyCov_in, opaSkyCov_in=opaSkyCov_in));
+  weaDat(pAtm_in=pAtm_in, TDryBul_in=TDryBul_in, TDewPoi_in=TDewPoi_in, TBlaSky_in=TBlaSky_in, relHum_in=relHum_in, winSpe_in=winSpe_in, winDir_in=winDir_in, HInfHor_in=HInfHor_in, HGloHor_in=HGloHor_in, HDifHor_in=HDifHor_in, HDirNor_in=HDirNor_in, ceiHei_in=ceiHei_in, totSkyCov_in=totSkyCov_in, opaSkyCov_in=opaSkyCov_in),
+  perRad(Q_flow=perRad_QFlow),
+  perCon(Q_flow=perCon_QFlow),
+  macConv(Q_flow=macConv_QFlow)
+  );
 
 equation
 TZon = mod.thermalZoneOneElement.TAir;
