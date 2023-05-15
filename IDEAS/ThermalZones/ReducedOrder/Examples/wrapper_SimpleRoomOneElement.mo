@@ -5,11 +5,11 @@ model wrapper_SimpleRoomOneElement
 Modelica.Blocks.Interfaces.RealInput UWin(start=2.1);
 
 // Zone temperature as state
-Modelica.Units.SI.Temperature TZon(start=273.15+20);
+Modelica.Units.SI.Temperature TZon(start=273.15+20) annotation (StateSelect);
 Modelica.Units.SI.TemperatureSlope der_TZon(start=0);
 
 // Check weatherdata as states
-Modelica.Units.SI.Angle altAng(start=0);
+Modelica.Units.SI.Angle altAng(start=0) annotation (StateSelect);
 Modelica.Units.SI.AngularVelocity der_altAng(start=0);
 
 // Weather data as input
