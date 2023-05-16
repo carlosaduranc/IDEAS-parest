@@ -11,7 +11,7 @@ partial model PartialVDI6007
     "Weight factor of the ground (0 if not considered)";
   parameter Modelica.Units.SI.Temperature TGro
     "Temperature of the ground in contact with floor plate";
-  parameter Modelica.Units.SI.CoefficientOfHeatTransfer hConWallOut
+  input Modelica.Units.SI.CoefficientOfHeatTransfer hConWallOut
     "Exterior walls convective coefficient of heat transfer (outdoor)";
   parameter Modelica.Units.SI.CoefficientOfHeatTransfer hRad
     "Coefficient of heat transfer for linearized radiation";
