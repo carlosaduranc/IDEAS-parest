@@ -54,7 +54,6 @@ model SimpleRoomOneElement
     aExt=0.7,
     hConWallOut=20,
     hRad=5,
-    hConWinOut=20,
     TGro=285.15) "Computes equivalent air temperature"
     annotation (Placement(transformation(extent={{-24,-14},{-4,6}})));
   Modelica.Blocks.Math.Add solRad[2]
