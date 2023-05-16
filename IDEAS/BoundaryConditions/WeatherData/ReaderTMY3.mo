@@ -141,8 +141,22 @@ block ReaderTMY3 "Reader for TMY3 weather data"
   final parameter Modelica.Units.SI.Angle lat(displayUnit = "deg") = IDEAS.BoundaryConditions.WeatherData.BaseClasses.getLatitudeTMY3(filNam) "Latitude";
   final parameter Modelica.Units.SI.Time timZon(displayUnit = "h") = IDEAS.BoundaryConditions.WeatherData.BaseClasses.getTimeZoneTMY3(filNam) "Time zone";
   final parameter Modelica.Units.SI.Length alt(displayUnit = "m") = IDEAS.BoundaryConditions.WeatherData.BaseClasses.getAltitudeLocationTMY3(filNam) "Location altitude above sea level";
-  Modelica.Blocks.Interfaces.RealOutput altAng_out annotation(
-    Placement(visible = true, transformation(origin = {34, -218}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {34, -218}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealInput altAng_in annotation(
+    Placement(visible = true, transformation(origin = {-40, -320}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-88, -310}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealInput decAng_in annotation(
+    Placement(visible = true, transformation(origin = {0, -320}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-88, -310}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealInput solHouAng_in annotation(
+    Placement(visible = true, transformation(origin = {40, -320}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-88, -310}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealInput zenAng_in annotation(
+    Placement(visible = true, transformation(origin = {80, -320}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-88, -310}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealInput solTim_in annotation(
+    Placement(visible = true, transformation(origin = {-80, -320}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-88, -310}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealInput modTim_in annotation(
+    Placement(visible = true, transformation(origin = {-120, -320}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-88, -310}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealInput latitude_in annotation(
+    Placement(visible = true, transformation(origin = {120, -320}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-88, -310}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealInput longitude_in annotation(
+    Placement(visible = true, transformation(origin = {160, -320}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-88, -310}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
 protected
   final parameter Modelica.Units.SI.Time[2] timeSpan = IDEAS.BoundaryConditions.WeatherData.BaseClasses.getTimeSpanTMY3(filNam, "tab1") "Start time, end time of weather data";
   BaseClasses.SourceSelector pAtmSel(final datSou = pAtmSou, final p = pAtm) "Source selection for atmospheric pressure" annotation(
@@ -191,26 +205,6 @@ protected
     Placement(transformation(extent = {{160, -280}, {180, -260}})));
   SkyTemperature.BlackBody TBlaSkyCom(final calTSky = calTSky) if TBlaSkySou == IDEAS.BoundaryConditions.Types.DataSource.File "Computation of the black-body sky temperature" annotation(
     Placement(transformation(extent = {{240, -220}, {260, -200}})));
-  IDEAS.Utilities.Time.ModelTime modTim "Model time" annotation(
-    Placement(transformation(extent = {{-160, -10}, {-140, 10}})));
-  IDEAS.BoundaryConditions.WeatherData.BaseClasses.LocalCivilTime locTim(final lon = lon, final timZon = timZon) "Local civil time" annotation(
-    Placement(transformation(extent = {{-120, -160}, {-100, -140}})));
-  BaseClasses.EquationOfTime eqnTim "Equation of time" annotation(
-    Placement(transformation(extent = {{-120, -120}, {-100, -100}})));
-  BaseClasses.SolarTime solTim "Solar time" annotation(
-    Placement(transformation(extent = {{-88, -140}, {-68, -120}})));
-  SolarGeometry.BaseClasses.AltitudeAngle altAng "Solar altitude angle" annotation(
-    Placement(transformation(extent = {{-28, -226}, {-8, -206}})));
-  SolarGeometry.BaseClasses.ZenithAngle zenAng "Zenith angle" annotation(
-    Placement(transformation(extent = {{-70, -226}, {-50, -206}})));
-  SolarGeometry.BaseClasses.Declination decAng "Declination angle" annotation(
-    Placement(transformation(extent = {{-120, -220}, {-100, -200}})));
-  SolarGeometry.BaseClasses.SolarHourAngle solHouAng "Solar hour angle" annotation(
-    Placement(transformation(extent = {{-120, -250}, {-100, -230}})));
-  Latitude latitude(final latitude = lat) "Latitude" annotation(
-    Placement(transformation(extent = {{-150, -290}, {-130, -270}})));
-  Longitude longitude(final longitude = lon) "Longitude" annotation(
-    Placement(transformation(extent = {{-120, -282}, {-100, -262}})));
   Altitude altitude(final Altitude = alt) "Altitude" annotation(
     Placement(transformation(extent = {{226, 94}, {246, 114}})));
   //---------------------------------------------------------------------------
@@ -329,24 +323,6 @@ First implementation.
 </html>"));
   end Altitude;
 equation
-  connect(modTim.y, locTim.cloTim) annotation(
-    Line(points = {{-139, 6.10623e-16}, {-128, 6.10623e-16}, {-128, -150}, {-122, -150}}, color = {0, 0, 127}));
-  connect(modTim.y, eqnTim.nDay) annotation(
-    Line(points = {{-139, 6.10623e-16}, {-128, 6.10623e-16}, {-128, -110}, {-122, -110}}, color = {0, 0, 127}));
-  connect(eqnTim.eqnTim, solTim.equTim) annotation(
-    Line(points = {{-99, -110}, {-94, -110}, {-94, -124}, {-90, -124}}, color = {0, 0, 127}));
-  connect(locTim.locTim, solTim.locTim) annotation(
-    Line(points = {{-99, -150}, {-96, -150}, {-96, -135.4}, {-90, -135.4}}, color = {0, 0, 127}));
-  connect(decAng.decAng, zenAng.decAng) annotation(
-    Line(points = {{-99, -210}, {-72, -210}, {-72, -210.6}}, color = {0, 0, 127}));
-  connect(solHouAng.solHouAng, zenAng.solHouAng) annotation(
-    Line(points = {{-99, -240}, {-80, -240}, {-80, -220.8}, {-72, -220.8}}, color = {0, 0, 127}));
-  connect(solHouAng.solTim, solTim.solTim) annotation(
-    Line(points = {{-122, -240}, {-140, -240}, {-140, -174}, {-10, -174}, {-10, -130}, {-67, -130}}, color = {0, 0, 127}));
-  connect(decAng.nDay, modTim.y) annotation(
-    Line(points = {{-122, -210}, {-134, -210}, {-134, -180}, {0, -180}, {0, 6.10623e-16}, {-139, 6.10623e-16}}, color = {0, 0, 127}));
-  connect(zenAng.zen, altAng.zen) annotation(
-    Line(points = {{-49, -216}, {-30, -216}}, color = {0, 0, 127}));
   connect(limOpaSkyCov.nOpa, TBlaSkyCom.nOpa) annotation(
     Line(points = {{181, -150}, {220, -150}, {220, -213}, {238, -213}}, color = {0, 0, 127}));
   connect(limRelHum.relHum, tWetBul_TDryBulXi.phi) annotation(
@@ -401,8 +377,6 @@ equation
     Line(points = {{119, 188}, {100, 188}, {100, 160}, {-168, 160}, {-168, -260}, {-220, -260}}, color = {0, 0, 127}));
   connect(souSelRad.HGloHorIn, HGloHor_in) annotation(
     Line(points = {{119, 181}, {102, 181}, {102, 156}, {-164, 156}, {-164, -300}, {-220, -300}}, color = {0, 0, 127}));
-  connect(souSelRad.zen, zenAng.zen) annotation(
-    Line(points = {{124, 179}, {124, 152}, {-40, 152}, {-40, -216}, {-49, -216}}, color = {0, 0, 127}));
   connect(TBlaSkyCom.HHorIR, limHorInfRad.HHorIR) annotation(
     Line(points = {{238, -218}, {220, -218}, {220, 70}, {181, 70}}, color = {0, 0, 127}));
   connect(opaSkyCovSel.y, limOpaSkyCov.u) annotation(
@@ -458,34 +432,30 @@ equation
   connect(limOpaSkyCov.nOpa, weaBus.nOpa) annotation(
     Line(points = {{181, -150}, {220, -150}, {220, 0}, {300, 0}}, color = {0, 0, 127}),
     Text(textString = "%second", index = 1, extent = {{6, 3}, {6, 3}}));
-  connect(modTim.y, weaBus.cloTim) annotation(
-    Line(points = {{-139, 6.10623e-16}, {34.75, 6.10623e-16}, {34.75, 0}, {300, 0}}, color = {0, 0, 127}),
-    Text(textString = "%second", index = 1, extent = {{6, 3}, {6, 3}}));
-  connect(solTim.solTim, weaBus.solTim) annotation(
-    Line(points = {{-67, -130}, {-10, -130}, {-10, 0}, {300, 0}}, color = {0, 0, 127}),
-    Text(textString = "%second", index = 1, extent = {{6, 3}, {6, 3}}));
-  connect(altAng.alt, weaBus.solAlt) annotation(
-    Line(points = {{-7, -216}, {0, -216}, {0, -290}, {290, -290}, {290, 0}, {300, 0}}, color = {0, 0, 127}));
-  connect(zenAng.zen, weaBus.solZen) annotation(
-    Line(points = {{-49, -216}, {-40, -216}, {-40, -290}, {290, -290}, {290, 0}, {300, 0}}, color = {0, 0, 127}));
-  connect(decAng.decAng, weaBus.solDec) annotation(
-    Line(points = {{-99, -210}, {-90, -210}, {-90, -290}, {290, -290}, {290, 0}, {300, 0}}, color = {0, 0, 127}));
-  connect(solHouAng.solHouAng, weaBus.solHouAng) annotation(
-    Line(points = {{-99, -240}, {-90, -240}, {-90, -290}, {290, -290}, {290, 0}, {300, 0}}, color = {0, 0, 127}));
-  connect(longitude.y, weaBus.lon) annotation(
-    Line(points = {{-99, -272}, {-90, -272}, {-90, -290}, {290, -290}, {290, 0}, {300, 0}}, color = {0, 0, 127}));
-  connect(latitude.y, weaBus.lat) annotation(
-    Line(points = {{-129, -280}, {-124, -280}, {-124, -290}, {290, -290}, {290, 0}, {300, 0}}, color = {0, 0, 127}));
   connect(altitude.y, weaBus.alt) annotation(
     Line(points = {{247, 104}, {290, 104}, {290, 0}, {300, 0}}, color = {0, 0, 127}),
     Text(string = "%second", index = 1, extent = {{6, 3}, {6, 3}}, horizontalAlignment = TextAlignment.Left));
   connect(chePre.pAtm, weaBus.pAtm) annotation(
     Line(points = {{181, 270}, {220, 270}, {220, 0}, {300, 0}}, color = {0, 0, 127}),
     Text(string = "%second", index = 1, extent = {{6, 3}, {6, 3}}, horizontalAlignment = TextAlignment.Left));
-  connect(latitude.y, zenAng.lat) annotation(
-    Line(points = {{-129, -280}, {-124, -280}, {-124, -290}, {-90, -290}, {-90, -216}, {-72, -216}}, color = {0, 0, 127}));
-  connect(altAng.alt, altAng_out) annotation(
-    Line(points = {{-6, -216}, {34, -216}, {34, -218}}, color = {0, 0, 127}, pattern = LinePattern.Solid));
+  connect(altAng_in, weaBus.solAlt) annotation(
+    Line(points = {{-40, -320}, {-40, -290}, {300, -290}, {300, 0}}, color = {0, 0, 127}, pattern = LinePattern.Solid));
+  connect(zenAng_in, weaBus.solZen) annotation(
+    Line(points = {{80, -320}, {81, -320}, {81, -290}, {300, -290}, {300, 0}}, color = {0, 0, 127}, pattern = LinePattern.Solid));
+  connect(zenAng_in, souSelRad.zen) annotation(
+    Line(points = {{80, -320}, {81, -320}, {81, -290}, {22, -290}, {22, 120}, {124, 120}, {124, 180}}, color = {0, 0, 127}, pattern = LinePattern.Solid));
+  connect(solHouAng_in, weaBus.solHouAng) annotation(
+    Line(points = {{40, -320}, {40, -290}, {300, -290}, {300, 0}}, color = {0, 0, 127}, pattern = LinePattern.Solid));
+  connect(decAng_in, weaBus.solDec) annotation(
+    Line(points = {{0, -320}, {0, -290}, {300, -290}, {300, 0}}, color = {0, 0, 127}, pattern = LinePattern.Solid));
+  connect(solTim_in, weaBus.solTim) annotation(
+    Line(points = {{-80, -320}, {-80, 0}, {300, 0}}, color = {0, 0, 127}, pattern = LinePattern.Solid));
+  connect(modTim_in, weaBus.cloTim) annotation(
+    Line(points = {{-120, -320}, {-120, -260}, {-80, -260}, {-80, -1}, {300, -1}, {300, 0}}, color = {0, 0, 127}, pattern = LinePattern.Solid));
+  connect(latitude_in, weaBus.lat) annotation(
+    Line(points = {{120, -320}, {120, -290}, {300, -290}, {300, 0}}, color = {0, 0, 127}, pattern = LinePattern.Solid));
+  connect(longitude_in, weaBus.lon) annotation(
+    Line(points = {{160, -320}, {300, -320}, {300, 0}}, color = {0, 0, 127}, pattern = LinePattern.Solid));
   annotation(
     defaultComponentName = "weaDat",
     Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-200, -200}, {200, 200}}, initialScale = 0.05), graphics = {Rectangle(lineColor = {124, 142, 255}, fillColor = {124, 142, 255}, pattern = LinePattern.Solid, fillPattern = FillPattern.Solid, extent = {{-200, 200}, {200, -200}}), Text(textColor = {0, 0, 255}, extent = {{-162, 270}, {138, 230}}, textString = "%name"), Text(visible = false, textColor = {0, 0, 127}, extent = {{-190, 216}, {-164, 184}}, textString = "p"), Text(visible = false, textColor = {0, 0, 127}, extent = {{-194, 162}, {-118, 118}}, textString = "TDryBul"), Text(visible = false, textColor = {0, 0, 127}, extent = {{-190, 92}, {-104, 66}}, textString = "relHum"), Text(visible = false, textColor = {0, 0, 127}, extent = {{-196, 44}, {-110, 2}}, textString = "winSpe"), Text(visible = false, textColor = {0, 0, 127}, extent = {{-192, -18}, {-106, -60}}, textString = "winDir"), Text(visible = false, textColor = {0, 0, 127}, extent = {{-202, -88}, {-112, -108}}, textString = "HGloHor"), Text(visible = false, textColor = {0, 0, 127}, extent = {{-202, -142}, {-116, -164}}, textString = "HDifHor"), Text(visible = false, textColor = {0, 0, 127}, extent = {{-200, -186}, {-126, -214}}, textString = "HDirNor"), Ellipse(lineColor = {255, 220, 220}, fillColor = {255, 255, 0}, pattern = LinePattern.Solid, fillPattern = FillPattern.Sphere, lineThickness = 1, extent = {{-146, 154}, {28, -20}}), Polygon(lineColor = {220, 220, 220}, fillColor = {230, 230, 230}, pattern = LinePattern.Solid, fillPattern = FillPattern.Sphere, lineThickness = 0.1, points = {{94, 106}, {77.9727, 42.9844}, {78, 42}, {110, 52}, {138, 50}, {164, 38}, {182, -28}, {138, -102}, {10, -110}, {-140, -106}, {-166, -30}, {-150, 24}, {-102, 26}, {-78.2109, 8.1582}, {-78, 8}, {-92, 70}, {-58, 120}, {34, 140}, {94, 106}}, smooth = Smooth.Bezier), Text(textColor = {255, 255, 255}, extent = {{140, -106}, {-126, -192}}, textString = "")}),
