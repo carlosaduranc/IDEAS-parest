@@ -1,6 +1,6 @@
 within IDEAS.Examples.IBPSA;
 model SingleZoneResidentialHydronicHeatPump
-  "Single zone residential hydronic example using a heat pump as heating production system "
+  "Single zone residential hydronic example using a heat pump as heating production system"
   extends Modelica.Icons.Example;
   package MediumWater = IDEAS.Media.Water "Water medium";
   package MediumAir = IDEAS.Media.Air(extraPropertiesNames={"CO2"}) "Air medium";

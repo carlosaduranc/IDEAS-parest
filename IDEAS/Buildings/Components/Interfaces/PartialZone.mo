@@ -15,9 +15,9 @@ model PartialZone "Building zone model"
     and not sim.unify_n50
     "if true, a custom n50 value is used instead of a globally computed n50 value" annotation(Dialog(tab="Airflow", group="Airtightness"));
 
-  input Real n50(unit="1/h",min=0.01)= sim.n50 "n50 value for this zone"
+  parameter Real n50(unit="1/h",min=0.01)= sim.n50 "n50 value for this zone"
    annotation(Dialog(tab="Airflow", group="Airtightness"));
-  input Real n50_computed(unit="1/h",min=0.01) = if use_custom_n50 and not setq50.allSurfacesCustom then n50 else n50_int "Computed n50 value";
+  final parameter Real n50_computed(unit="1/h",min=0.01) = if use_custom_n50 and not setq50.allSurfacesCustom then n50 else n50_int "Computed n50 value";
   parameter Boolean allowFlowReversal=true
     "= true to allow flow reversal in zone, false restricts to design direction (port_a -> port_b)."
     annotation(Dialog(tab="Airflow", group="Air model"));
@@ -61,7 +61,7 @@ model PartialZone "Building zone model"
   parameter Boolean simVieFac=false "Simplify view factor computation"
     annotation(Dialog(tab="Advanced", group="Radiative heat exchange"));
 
-  replaceable ZoneAirModels.WellMixedAir airModel(energyDynamics = Modelica.Fluid.Types.Dynamics.SteadyStateInitial)
+  replaceable ZoneAirModels.WellMixedAir airModel
   constrainedby
     IDEAS.Buildings.Components.ZoneAirModels.BaseClasses.PartialAirModel(
     redeclare package Medium = Medium,
@@ -242,7 +242,7 @@ model Setq50 "q50 computation for zones"
   parameter Real n50
     "n50 value";
     parameter Modelica.Units.SI.Volume V "Zone volume";
-  input Real q50_corr;
+  parameter Real q50_corr;
   parameter Boolean use_custom_n50 = false
     " = true, to set custom n50 value for this zone";
 
