@@ -5,6 +5,7 @@ model wrapper_SimpleRoomOneElement
 Modelica.Blocks.Interfaces.RealInput UWin(start=2.1);
 Modelica.Blocks.Interfaces.RealInput hConWinOut(start=20);
 Modelica.Blocks.Interfaces.RealInput hConWallOut(start=20);
+Modelica.Blocks.Interfaces.RealInput hRad(start=5.0);
 
 // Zone temperature as state
 Modelica.Units.SI.Temperature TZon(start=273.15+20);
@@ -47,7 +48,7 @@ IDEAS.ThermalZones.ReducedOrder.Examples.SimpleRoomOneElement mod(corGDouPan(UWi
   perRad(Q_flow=perRad_QFlow),
   perCon(Q_flow=perCon_QFlow),
   macConv(Q_flow=macConv_QFlow),
-  eqAirTemp(hConWinOut=hConWinOut, hConWallOut=hConWallOut)
+  eqAirTemp(hConWinOut=hConWinOut, hConWallOut=hConWallOut, hRad=hRad)
   );
 
 equation

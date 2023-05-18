@@ -13,7 +13,7 @@ partial model PartialVDI6007
     "Temperature of the ground in contact with floor plate";
   input Modelica.Units.SI.CoefficientOfHeatTransfer hConWallOut
     "Exterior walls convective coefficient of heat transfer (outdoor)";
-  parameter Modelica.Units.SI.CoefficientOfHeatTransfer hRad
+  input Modelica.Units.SI.CoefficientOfHeatTransfer hRad
     "Coefficient of heat transfer for linearized radiation";
   parameter Boolean withLongwave=true
     "Set to true to include longwave radiation exchange"
