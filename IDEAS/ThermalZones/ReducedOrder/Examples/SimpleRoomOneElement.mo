@@ -51,7 +51,6 @@ model SimpleRoomOneElement
     wfWall={0.3043478260869566,0.6956521739130435},
     wfWin={0.5,0.5},
     withLongwave=true,
-    aExt=0.7,
     TGro=285.15) "Computes equivalent air temperature"
     annotation (Placement(transformation(extent={{-24,-14},{-4,6}})));
   Modelica.Blocks.Math.Add solRad[2]

@@ -2,7 +2,7 @@ within IDEAS.ThermalZones.ReducedOrder.EquivalentAirTemperature.BaseClasses;
 partial model PartialVDI6007
   "Partial model for equivalent air temperature as defined in VDI 6007 Part 1"
 
-  parameter Modelica.Units.SI.Emissivity aExt
+  input Modelica.Units.SI.Emissivity aExt
     "Coefficient of absorption of exterior walls (outdoor)";
   parameter Integer n "Number of orientations (without ground)";
   parameter Real wfWall[n](each final unit="1") "Weight factors of the walls";
