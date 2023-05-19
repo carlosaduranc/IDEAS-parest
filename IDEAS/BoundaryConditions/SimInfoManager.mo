@@ -8,7 +8,7 @@ model SimInfoManager
     TDewPoi = TDewPoiData.y,
     Tsky = TBlaSkyData.y,
     Va = winSpeData.y,
-    Vdir = winDirData.y);
+    Vdir = winDirData.y, weaDat.HInfHorSou = IDEAS.BoundaryConditions.Types.DataSource.Input, weaDat.HSou = IDEAS.BoundaryConditions.Types.RadiationDataSource.Input_HDirNor_HGloHor, weaDat.TBlaSkySou = IDEAS.BoundaryConditions.Types.DataSource.Input, weaDat.TDewPoiSou = IDEAS.BoundaryConditions.Types.DataSource.Input, weaDat.TDryBulSou = IDEAS.BoundaryConditions.Types.DataSource.Input, weaDat.ceiHeiSou = IDEAS.BoundaryConditions.Types.DataSource.Input, weaDat.opaSkyCovSou = IDEAS.BoundaryConditions.Types.DataSource.Input, weaDat.pAtmSou = IDEAS.BoundaryConditions.Types.DataSource.Parameter, weaDat.relHumSou = IDEAS.BoundaryConditions.Types.DataSource.Input, weaDat.totSkyCovSou = IDEAS.BoundaryConditions.Types.DataSource.Input, weaDat.winDirSou = IDEAS.BoundaryConditions.Types.DataSource.Input, weaDat.winSpeSou = IDEAS.BoundaryConditions.Types.DataSource.Input);
 
 protected
   Modelica.Blocks.Routing.RealPassThrough HDirNorData;
