@@ -40,13 +40,6 @@ model SingleZoneResidentialHydronicHeatPump
     hasEmb=true)
     "Case 900 BESTEST model"
     annotation (Placement(transformation(extent={{-80,0},{-60,20}})));
-
-  Utilities.Time.CalendarTime calTim(zerTim=IDEAS.Utilities.Time.Types.ZeroTime.NY2019)
-    annotation (Placement(transformation(extent={{-240,140},{-220,160}})));
-  Modelica.Blocks.Sources.RealExpression yOcc(y=if (calTim.hour < 7 or calTim.hour >
-        19) or calTim.weekDay > 5 then 1*nOccupants else 0)
-    "Fixed schedule of 1 occupant between 7 am and 8 pm"
-    annotation (Placement(transformation(extent={{-80,30},{-60,50}})));
   IDEAS.Utilities.IO.SignalExchange.Overwrite oveHeaPumY(u(
       min=0,
       max=1,
@@ -96,10 +89,10 @@ model SingleZoneResidentialHydronicHeatPump
                                                      y(unit="K"))
     "Read zone cooling heating"
     annotation (Placement(transformation(extent={{-160,-40},{-140,-20}})));
-  Modelica.Blocks.Sources.RealExpression TSetCoo(y=if yOcc.y > 1e-8 then
+  Modelica.Blocks.Sources.RealExpression TSetCoo(y=if yOcc > 1e-8 then
         TSetCooOcc else TSetCooUno) "Cooling temperature setpoint with setback with threshold strictly larger than 0 for detecting occupancy"
     annotation (Placement(transformation(extent={{-200,0},{-180,20}})));
-  Modelica.Blocks.Sources.RealExpression TSetHea(y=if yOcc.y > 1e-8 then
+  Modelica.Blocks.Sources.RealExpression TSetHea(y=if yOcc > 1e-8 then
         TSetHeaOcc else TSetHeaUno) "Heating temperature setpoint with setback with threshold strictly larger than 0 for detecting occupancy"
     annotation (Placement(transformation(extent={{-200,-40},{-180,-20}})));
   Modelica.Blocks.Continuous.LimPID conPI(
@@ -273,104 +266,99 @@ model SingleZoneResidentialHydronicHeatPump
         extent={{10,10},{-10,-10}},
         rotation=180,
         origin={30,150})));
+  Modelica.Blocks.Interfaces.RealInput yOcc annotation(
+    Placement(visible = true, transformation(origin = {-88, 40}, extent = {{-14, -14}, {14, 14}}, rotation = 0), iconTransformation(origin = {-84, 40}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
 equation
-  connect(case900Template.ppm, reaCO2RooAir.u) annotation (Line(points={{-59,10},
-          {-54,10},{-54,-50},{-58,-50}},
-                                    color={0,0,127}));
-  connect(yOcc.y, case900Template.yOcc) annotation (Line(points={{-59,40},{-52,
-          40},{-52,14},{-58,14}},
-                              color={0,0,127}));
-  connect(senTemSup.port_b, pum.port_a)
-    annotation (Line(points={{60,40},{40,40}}, color={0,127,255}));
-  connect(bouWat.ports[1], pum.port_a)
-    annotation (Line(points={{50,20},{50,40},{40,40}}, color={0,127,255}));
-  connect(heaPum.port_b1,senTemSup.port_a)  annotation (Line(points={{124,20},{124,
-          40},{80,40}},               color={0,127,255}));
-  connect(case900Template.gainEmb[1], floHea.heatPortEmb[1]) annotation (Line(
-        points={{-60,1},{-40,1},{-40,20},{-10,20}},          color={191,0,0}));
-  connect(pum.port_b, floHea.port_a)
-    annotation (Line(points={{20,40},{0,40},{0,10}}, color={0,127,255}));
-  connect(pum.P, reaPPumEmi.u)
-    annotation (Line(points={{19,49},{0,49},{0,80},{18,80}}, color={0,0,127}));
-  connect(yPum.y, ovePum.u)
-    annotation (Line(points={{-19,110},{-10,110}}, color={0,0,127}));
-  connect(realToInteger.y, pum.stage) annotation (Line(points={{73,110},{80,110},
-          {80,60},{30,60},{30,52}}, color={255,127,0}));
-  connect(heaPum.P, reaPHeaPum.u)
-    annotation (Line(points={{130,21},{130,80},{138,80}}, color={0,0,127}));
-  connect(case900Template.TSensor, reaTZon.u) annotation (Line(points={{-59,12},
-          {-46,12},{-46,80},{-34,80}}, color={0,0,127}));
-  connect(floHea.QTot, reaQFloHea.u) annotation (Line(points={{-21,16},{-32,16},
-          {-32,-50},{-22,-50}},
-                           color={0,0,127}));
-  connect(heaPum.QEva_flow, reaQHeaPumEva.u) annotation (Line(points={{139,21},{
-          139,28},{150,28},{150,10},{158,10}}, color={0,0,127}));
-  connect(heaPum.QCon_flow, reaQHeaPumCon.u) annotation (Line(points={{121,21},{
-          121,28},{110,28},{110,10},{102,10}}, color={0,0,127}));
-  connect(reaTSup.u, senTemSup.T) annotation (Line(points={{98,80},{90,80},{90,26},
-          {70,26},{70,29}}, color={0,0,127}));
-  connect(senTemRet.T, reaTRet.u)
-    annotation (Line(points={{70,-31},{70,-50},{98,-50}}, color={0,0,127}));
-  connect(heaPumCOP.y, reaCOP.u)
-    annotation (Line(points={{181,-50},{198,-50}}, color={0,0,127}));
-  connect(yFan.y, oveFan.u)
-    annotation (Line(points={{181,110},{190,110}}, color={0,0,127}));
-  connect(fan.port_a, outAir.ports[1])
-    annotation (Line(points={{220,40},{240,40},{240,9}}, color={0,127,255}));
-  connect(realToInteger2.y, fan.stage) annotation (Line(points={{273,110},{280,110},
-          {280,60},{210,60},{210,52}}, color={255,127,0}));
-  connect(fan.P, reaPFan.u) annotation (Line(points={{199,49},{190,49},{190,80},
-          {218,80}}, color={0,0,127}));
-  connect(offSetOcc.y, addOcc.u1) annotation (Line(points={{-179,150},{-170,150},
-          {-170,136},{-162,136}}, color={0,0,127}));
-  connect(offSetUno.y, addUno.u1) annotation (Line(points={{-179,70},{-172,70},
-          {-172,56},{-162,56}}, color={0,0,127}));
-  connect(greater.y, switch1.u2) annotation (Line(points={{-59,80},{-52,80},{
-          -52,150},{-22,150}}, color={255,0,255}));
-  connect(case900Template.TSensor, conPI.u_m) annotation (Line(points={{-59,12},
-          {-46,12},{-46,130},{110,130},{110,138}},
-                                                 color={0,0,127}));
-  connect(conPI.y, oveHeaPumY.u)
-    annotation (Line(points={{121,150},{138,150}},
-                                                 color={0,0,127}));
-  connect(addOcc.y, switch1.u1) annotation (Line(points={{-139,130},{-128,130},
-          {-128,158},{-22,158}}, color={0,0,127}));
-  connect(addUno.y, switch1.u3) annotation (Line(points={{-139,50},{-120,50},{
-          -120,142},{-22,142}}, color={0,0,127}));
-  connect(const.y, greater.u2) annotation (Line(points={{-93,110},{-90,110},{
-          -90,88},{-82,88}}, color={0,0,127}));
-  connect(yOcc.y, greater.u1) annotation (Line(points={{-59,40},{-52,40},{-52,
-          60},{-100,60},{-100,80},{-82,80}}, color={0,0,127}));
-  connect(outAir.ports[2], heaPum.port_b2) annotation (Line(points={{240,11},{240,
-          -20},{136,-20},{136,0}}, color={0,127,255}));
-  connect(heaPum.port_a2, fan.port_b)
-    annotation (Line(points={{136,20},{136,40},{200,40}}, color={0,127,255}));
-  connect(sim.weaDatBus, weaSta.weaBus) annotation (Line(
-      points={{-220.1,170},{-190,170},{-190,169.9},{-159.9,169.9}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(switch1.y, oveTSet.u)
-    annotation (Line(points={{1,150},{18,150}}, color={0,0,127}));
-  connect(TSetCoo.y, reaTSetCoo.u)
-    annotation (Line(points={{-179,10},{-162,10}}, color={0,0,127}));
-  connect(TSetHea.y, reaTSetHea.u) annotation (Line(points={{-179,-30},{-172,
-          -30},{-172,-30},{-162,-30}}, color={0,0,127}));
-  connect(TSetHea.y, addUno.u2) annotation (Line(points={{-179,-30},{-170,-30},
-          {-170,-60},{-220,-60},{-220,44},{-162,44}}, color={0,0,127}));
-  connect(TSetHea.y, addOcc.u2) annotation (Line(points={{-179,-30},{-170,-30},
-          {-170,-60},{-220,-60},{-220,124},{-162,124}}, color={0,0,127}));
-  connect(oveTSet.y, conPI.u_s)
-    annotation (Line(points={{41,150},{98,150}}, color={0,0,127}));
-  connect(oveHeaPumY.y, heaPum.y) annotation (Line(points={{161,150},{290,150},{
-          290,-30},{127,-30},{127,-2}}, color={0,0,127}));
-  connect(oveFan.y, realToInteger2.u)
-    annotation (Line(points={{213,110},{250,110}}, color={0,0,127}));
-  connect(ovePum.y, realToInteger.u)
-    annotation (Line(points={{13,110},{50,110}}, color={0,0,127}));
-  connect(senTemRet.port_b, heaPum.port_a1)
-    annotation (Line(points={{80,-20},{124,-20},{124,0}}, color={0,127,255}));
-  connect(senTemRet.port_a, floHea.port_b)
-    annotation (Line(points={{60,-20},{-20,-20},{-20,10}}, color={0,127,255}));
+  connect(case900Template.ppm, reaCO2RooAir.u) annotation(
+    Line(points = {{-59, 10}, {-54, 10}, {-54, -50}, {-58, -50}}, color = {0, 0, 127}));
+  connect(senTemSup.port_b, pum.port_a) annotation(
+    Line(points = {{60, 40}, {40, 40}}, color = {0, 127, 255}));
+  connect(bouWat.ports[1], pum.port_a) annotation(
+    Line(points = {{50, 20}, {50, 40}, {40, 40}}, color = {0, 127, 255}));
+  connect(heaPum.port_b1, senTemSup.port_a) annotation(
+    Line(points = {{124, 20}, {124, 40}, {80, 40}}, color = {0, 127, 255}));
+  connect(case900Template.gainEmb[1], floHea.heatPortEmb[1]) annotation(
+    Line(points = {{-60, 1}, {-40, 1}, {-40, 20}, {-10, 20}}, color = {191, 0, 0}));
+  connect(pum.port_b, floHea.port_a) annotation(
+    Line(points = {{20, 40}, {0, 40}, {0, 10}}, color = {0, 127, 255}));
+  connect(pum.P, reaPPumEmi.u) annotation(
+    Line(points = {{19, 49}, {0, 49}, {0, 80}, {18, 80}}, color = {0, 0, 127}));
+  connect(yPum.y, ovePum.u) annotation(
+    Line(points = {{-19, 110}, {-10, 110}}, color = {0, 0, 127}));
+  connect(realToInteger.y, pum.stage) annotation(
+    Line(points = {{73, 110}, {80, 110}, {80, 60}, {30, 60}, {30, 52}}, color = {255, 127, 0}));
+  connect(heaPum.P, reaPHeaPum.u) annotation(
+    Line(points = {{130, 21}, {130, 80}, {138, 80}}, color = {0, 0, 127}));
+  connect(case900Template.TSensor, reaTZon.u) annotation(
+    Line(points = {{-59, 12}, {-46, 12}, {-46, 80}, {-34, 80}}, color = {0, 0, 127}));
+  connect(floHea.QTot, reaQFloHea.u) annotation(
+    Line(points = {{-21, 16}, {-32, 16}, {-32, -50}, {-22, -50}}, color = {0, 0, 127}));
+  connect(heaPum.QEva_flow, reaQHeaPumEva.u) annotation(
+    Line(points = {{139, 21}, {139, 28}, {150, 28}, {150, 10}, {158, 10}}, color = {0, 0, 127}));
+  connect(heaPum.QCon_flow, reaQHeaPumCon.u) annotation(
+    Line(points = {{121, 21}, {121, 28}, {110, 28}, {110, 10}, {102, 10}}, color = {0, 0, 127}));
+  connect(reaTSup.u, senTemSup.T) annotation(
+    Line(points = {{98, 80}, {90, 80}, {90, 26}, {70, 26}, {70, 29}}, color = {0, 0, 127}));
+  connect(senTemRet.T, reaTRet.u) annotation(
+    Line(points = {{70, -31}, {70, -50}, {98, -50}}, color = {0, 0, 127}));
+  connect(heaPumCOP.y, reaCOP.u) annotation(
+    Line(points = {{181, -50}, {198, -50}}, color = {0, 0, 127}));
+  connect(yFan.y, oveFan.u) annotation(
+    Line(points = {{181, 110}, {190, 110}}, color = {0, 0, 127}));
+  connect(fan.port_a, outAir.ports[1]) annotation(
+    Line(points = {{220, 40}, {240, 40}, {240, 9}}, color = {0, 127, 255}));
+  connect(realToInteger2.y, fan.stage) annotation(
+    Line(points = {{273, 110}, {280, 110}, {280, 60}, {210, 60}, {210, 52}}, color = {255, 127, 0}));
+  connect(fan.P, reaPFan.u) annotation(
+    Line(points = {{199, 49}, {190, 49}, {190, 80}, {218, 80}}, color = {0, 0, 127}));
+  connect(offSetOcc.y, addOcc.u1) annotation(
+    Line(points = {{-179, 150}, {-170, 150}, {-170, 136}, {-162, 136}}, color = {0, 0, 127}));
+  connect(offSetUno.y, addUno.u1) annotation(
+    Line(points = {{-179, 70}, {-172, 70}, {-172, 56}, {-162, 56}}, color = {0, 0, 127}));
+  connect(greater.y, switch1.u2) annotation(
+    Line(points = {{-59, 80}, {-52, 80}, {-52, 150}, {-22, 150}}, color = {255, 0, 255}));
+  connect(case900Template.TSensor, conPI.u_m) annotation(
+    Line(points = {{-59, 12}, {-46, 12}, {-46, 130}, {110, 130}, {110, 138}}, color = {0, 0, 127}));
+  connect(conPI.y, oveHeaPumY.u) annotation(
+    Line(points = {{121, 150}, {138, 150}}, color = {0, 0, 127}));
+  connect(addOcc.y, switch1.u1) annotation(
+    Line(points = {{-139, 130}, {-128, 130}, {-128, 158}, {-22, 158}}, color = {0, 0, 127}));
+  connect(addUno.y, switch1.u3) annotation(
+    Line(points = {{-139, 50}, {-120, 50}, {-120, 142}, {-22, 142}}, color = {0, 0, 127}));
+  connect(const.y, greater.u2) annotation(
+    Line(points = {{-93, 110}, {-90, 110}, {-90, 88}, {-82, 88}}, color = {0, 0, 127}));
+  connect(outAir.ports[2], heaPum.port_b2) annotation(
+    Line(points = {{240, 11}, {240, -20}, {136, -20}, {136, 0}}, color = {0, 127, 255}));
+  connect(heaPum.port_a2, fan.port_b) annotation(
+    Line(points = {{136, 20}, {136, 40}, {200, 40}}, color = {0, 127, 255}));
+  connect(sim.weaDatBus, weaSta.weaBus) annotation(
+    Line(points = {{-220.1, 170}, {-190, 170}, {-190, 169.9}, {-159.9, 169.9}}, color = {255, 204, 51}, thickness = 0.5));
+  connect(switch1.y, oveTSet.u) annotation(
+    Line(points = {{1, 150}, {18, 150}}, color = {0, 0, 127}));
+  connect(TSetCoo.y, reaTSetCoo.u) annotation(
+    Line(points = {{-179, 10}, {-162, 10}}, color = {0, 0, 127}));
+  connect(TSetHea.y, reaTSetHea.u) annotation(
+    Line(points = {{-179, -30}, {-172, -30}, {-172, -30}, {-162, -30}}, color = {0, 0, 127}));
+  connect(TSetHea.y, addUno.u2) annotation(
+    Line(points = {{-179, -30}, {-170, -30}, {-170, -60}, {-220, -60}, {-220, 44}, {-162, 44}}, color = {0, 0, 127}));
+  connect(TSetHea.y, addOcc.u2) annotation(
+    Line(points = {{-179, -30}, {-170, -30}, {-170, -60}, {-220, -60}, {-220, 124}, {-162, 124}}, color = {0, 0, 127}));
+  connect(oveTSet.y, conPI.u_s) annotation(
+    Line(points = {{41, 150}, {98, 150}}, color = {0, 0, 127}));
+  connect(oveHeaPumY.y, heaPum.y) annotation(
+    Line(points = {{161, 150}, {290, 150}, {290, -30}, {127, -30}, {127, -2}}, color = {0, 0, 127}));
+  connect(oveFan.y, realToInteger2.u) annotation(
+    Line(points = {{213, 110}, {250, 110}}, color = {0, 0, 127}));
+  connect(ovePum.y, realToInteger.u) annotation(
+    Line(points = {{13, 110}, {50, 110}}, color = {0, 0, 127}));
+  connect(senTemRet.port_b, heaPum.port_a1) annotation(
+    Line(points = {{80, -20}, {124, -20}, {124, 0}}, color = {0, 127, 255}));
+  connect(senTemRet.port_a, floHea.port_b) annotation(
+    Line(points = {{60, -20}, {-20, -20}, {-20, 10}}, color = {0, 127, 255}));
+  connect(yOcc, case900Template.yOcc) annotation(
+    Line(points = {{-88, 40}, {-50, 40}, {-50, 14}, {-58, 14}}, color = {0, 0, 127}, pattern = LinePattern.Solid));
+  connect(yOcc, greater.u1) annotation(
+    Line(points = {{-88, 40}, {-96, 40}, {-96, 80}, {-82, 80}}, color = {0, 0, 127}, pattern = LinePattern.Solid));
   annotation (
     experiment(
       StopTime=1728000,
