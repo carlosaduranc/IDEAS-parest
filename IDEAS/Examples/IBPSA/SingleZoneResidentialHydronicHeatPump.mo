@@ -25,7 +25,6 @@ model SingleZoneResidentialHydronicHeatPump
     redeclare Buildings.Components.Occupants.Input occNum,
     redeclare Buildings.Components.OccupancyType.OfficeWork occTyp,
     mSenFac=1,
-    n50=10,
     bouTypFlo=IDEAS.Buildings.Components.Interfaces.BoundaryType.SlabOnGround,
     hasInt=true,
     l=8*sqrt(scalingFactor),
