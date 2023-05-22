@@ -203,8 +203,6 @@ protected
     Placement(transformation(extent = {{160, 60}, {180, 80}})));
   IDEAS.BoundaryConditions.WeatherData.BaseClasses.LimiterWindDirection limWinDir "Limits the wind direction" annotation(
     Placement(transformation(extent = {{160, -280}, {180, -260}})));
-  SkyTemperature.BlackBody TBlaSkyCom(final calTSky = calTSky) if TBlaSkySou == IDEAS.BoundaryConditions.Types.DataSource.File "Computation of the black-body sky temperature" annotation(
-    Placement(transformation(extent = {{240, -220}, {260, -200}})));
   Altitude altitude(final Altitude = alt) "Altitude" annotation(
     Placement(transformation(extent = {{226, 94}, {246, 114}})));
   //---------------------------------------------------------------------------
@@ -323,8 +321,6 @@ First implementation.
 </html>"));
   end Altitude;
 equation
-  connect(limOpaSkyCov.nOpa, TBlaSkyCom.nOpa) annotation(
-    Line(points = {{181, -150}, {220, -150}, {220, -213}, {238, -213}}, color = {0, 0, 127}));
   connect(limRelHum.relHum, tWetBul_TDryBulXi.phi) annotation(
     Line(points = {{181, 30}, {220, 30}, {220, -50}, {239, -50}}, color = {0, 0, 127}));
   connect(pAtmSel.y, chePre.PIn) annotation(
@@ -341,8 +337,6 @@ equation
     Line(points = {{91, -182}, {78, -182}, {78, 142}, {-176, 142}, {-176, 180}, {-220, 180}}, color = {0, 0, 127}));
   connect(TBlaSkySel.y, cheTemBlaSky.TIn) annotation(
     Line(points = {{261, -170}, {270, -170}, {270, -148}, {230, -148}, {230, -130}, {238, -130}}, color = {0, 0, 127}));
-  connect(TBlaSkyCom.TBlaSky, TBlaSkySel.uFil) annotation(
-    Line(points = {{261, -210}, {268, -210}, {268, -186}, {232, -186}, {232, -178}, {239, -178}}, color = {0, 0, 127}));
   connect(TBlaSky_in, TBlaSkySel.uCon) annotation(
     Line(points = {{-220, 140}, {74, 140}, {74, -168}, {228, -168}, {228, -162}, {239, -162}}, color = {0, 0, 127}));
   connect(relHumSel.y, limRelHum.u) annotation(
@@ -377,18 +371,12 @@ equation
     Line(points = {{119, 188}, {100, 188}, {100, 160}, {-168, 160}, {-168, -260}, {-220, -260}}, color = {0, 0, 127}));
   connect(souSelRad.HGloHorIn, HGloHor_in) annotation(
     Line(points = {{119, 181}, {102, 181}, {102, 156}, {-164, 156}, {-164, -300}, {-220, -300}}, color = {0, 0, 127}, pattern = LinePattern.Solid));
-  connect(TBlaSkyCom.HHorIR, limHorInfRad.HHorIR) annotation(
-    Line(points = {{238, -218}, {220, -218}, {220, 70}, {181, 70}}, color = {0, 0, 127}));
   connect(opaSkyCovSel.y, limOpaSkyCov.u) annotation(
     Line(points = {{141, -150}, {158, -150}}, color = {0, 0, 127}));
-  connect(cheTemDryBul.TDryBul, TBlaSkyCom.TDryBul) annotation(
-    Line(points = {{181, -190}, {220, -190}, {220, -202}, {238, -202}}, color = {0, 0, 127}));
   connect(cheTemDryBul.TDryBul, tWetBul_TDryBulXi.TDryBul) annotation(
     Line(points = {{181, -190}, {220, -190}, {220, -42}, {239, -42}}, color = {0, 0, 127}));
   connect(chePre.pAtm, tWetBul_TDryBulXi.p) annotation(
     Line(points = {{181, 270}, {220, 270}, {220, -58}, {239, -58}}, color = {0, 0, 127}));
-  connect(cheTemDewPoi.TDewPoi, TBlaSkyCom.TDewPoi) annotation(
-    Line(points = {{181, -230}, {220, -230}, {220, -207}, {238, -207}}, color = {0, 0, 127}));
 // Connections to weather data bus
   connect(cheTemDryBul.TDryBul, weaBus.TDryBul) annotation(
     Line(points = {{181, -190}, {220, -190}, {220, 0}, {300, 0}}, color = {0, 0, 127}),
