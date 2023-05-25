@@ -16,7 +16,7 @@ model SingleZoneResidentialHydronicHeatPump
   parameter Real scalingFactor = 4 "Factor to scale up the model area";
   parameter Real nOccupants = 5 "Number of occupants";
 
-  inner IDEAS.BoundaryConditions.SimInfoManager       sim
+  inner IDEAS.BoundaryConditions.SimInfoManager       sim(filNam = "/home/developer/.openmodelica/libraries/IDEAS-parest/IDEAS/Resources/weatherdata/BEL_VLG_Uccle.064470_TMYx.2007-2021.mos")
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{-240,160},{-220,180}})));
 
