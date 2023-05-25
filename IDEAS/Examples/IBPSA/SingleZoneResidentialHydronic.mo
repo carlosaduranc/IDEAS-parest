@@ -14,7 +14,7 @@ model SingleZoneResidentialHydronic
   parameter Modelica.Units.SI.Temperature TSetHeaOcc=273.15 + 21
     "Occupied heating setpoint" annotation (Dialog(group="Setpoints"));
 
-  inner IDEAS.BoundaryConditions.SimInfoManager       sim
+  inner IDEAS.BoundaryConditions.SimInfoManager       sim(filNam = "/home/developer/.openmodelica/libraries/IDEAS-parest/IDEAS/Resources/weatherdata/BEL_VLG_Uccle.064470_TMYx.2007-2021.mos")
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{-180,80},{-160,100}})));
 
