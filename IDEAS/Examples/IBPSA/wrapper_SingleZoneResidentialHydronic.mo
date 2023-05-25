@@ -36,10 +36,13 @@ Modelica.Blocks.Interfaces.RealInput lon_in(start=-2.136283004441059);
 
 // Ocupancy as input
 Modelica.Blocks.Interfaces.RealInput yOcc_in(start=0);
+Modelica.Blocks.Interfaces.RealInput TSetCoo_in(start=303.15);
+Modelica.Blocks.Interfaces.RealInput TSetHea_in(start=294.15);
+Modelica.Blocks.Interfaces.RealInput QGas_in(start=1000);
 
 
 
-IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic mod(yOcc=yOcc_in,
+IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic mod(yOcc=yOcc_in, TSetCoo=TSetCoo_in, TSetHea=TSetHea_in, QGas=QGas_in,
 sim.weaDat(pAtm_in=pAtm_in, TDryBul_in=TDryBul_in, TDewPoi_in=TDewPoi_in, TBlaSky_in=TBlaSky_in, relHum_in=relHum_in, winSpe_in=winSpe_in, winDir_in=winDir_in, HInfHor_in=HInfHor_in, HGloHor_in=HGloHor_in, HDifHor_in=HDifHor_in, HDirNor_in=HDirNor_in, ceiHei_in=ceiHei_in, totSkyCov_in=totSkyCov_in, opaSkyCov_in=opaSkyCov_in, solAlt_in=solAlt_in, solDec_in=solDec_in, solHouAng_in=solHouAng_in, solZen_in=solZen_in, solTim_in=solTim_in, cloTim_in=cloTim_in, lat_in=lat_in, lon_in=lon_in),
 case900Template(n50=n50));
 

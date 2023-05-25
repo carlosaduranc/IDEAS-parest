@@ -121,10 +121,6 @@ model SingleZoneResidentialHydronic
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
     y(unit="ppm")) "Block for reading CO2 concentration in the zone"
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
-
-  Modelica.Blocks.Sources.RealExpression QGas(y=hea.Q_flow/eta)
-    "Primary gas thermal power"
-    annotation (Placement(transformation(extent={{30,50},{50,70}})));
   Utilities.IO.SignalExchange.Overwrite oveTSetCoo(u(
       unit="K",
       min=273.15 + 23,
@@ -143,12 +139,6 @@ model SingleZoneResidentialHydronic
         extent={{10,10},{-10,-10}},
         rotation=180,
         origin={-110,-80})));
-  Modelica.Blocks.Sources.RealExpression TSetCoo(y=if yOcc > 0 then
-        TSetCooOcc else TSetCooUno) "Cooling temperature setpoint with setback"
-    annotation (Placement(transformation(extent={{-180,-60},{-160,-40}})));
-  Modelica.Blocks.Sources.RealExpression TSetHea(y=if yOcc > 0 then
-        TSetHeaOcc else TSetHeaUno) "Heating temperature setpoint with setback"
-    annotation (Placement(transformation(extent={{-180,-90},{-160,-70}})));
   Modelica.Blocks.Continuous.LimPID conPI(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
     k=10,
@@ -164,6 +154,12 @@ model SingleZoneResidentialHydronic
     annotation (Placement(transformation(extent={{-140,80},{-120,100}})));
   Modelica.Blocks.Interfaces.RealInput yOcc annotation(
     Placement(visible = true, transformation(origin = {-85, 35}, extent = {{-11, -11}, {11, 11}}, rotation = 0), iconTransformation(origin = {-108, 34}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealInput TSetCoo annotation(
+    Placement(visible = true, transformation(origin = {-174, -52}, extent = {{-14, -14}, {14, 14}}, rotation = 0), iconTransformation(origin = {-170, -52}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealInput TSetHea annotation(
+    Placement(visible = true, transformation(origin = {-174, -86}, extent = {{-14, -14}, {14, 14}}, rotation = 0), iconTransformation(origin = {-172, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealInput QGas annotation(
+    Placement(visible = true, transformation(origin = {35, 61}, extent = {{-13, -13}, {13, 13}}, rotation = 0), iconTransformation(origin = {42, 90}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
 equation
   connect(rad.heatPortCon, case900Template.gainCon) annotation(
     Line(points = {{-37.2, 12}, {-48, 12}, {-48, 7}, {-60, 7}}, color = {191, 0, 0}));
@@ -193,10 +189,6 @@ equation
     Line(points = {{81, -70}, {88, -70}, {88, -48}, {10, -48}, {10, -22}}, color = {255, 127, 0}));
   connect(case900Template.ppm, reaCO2RooAir.u) annotation(
     Line(points = {{-59, 10}, {-50, 10}, {-50, 0}, {58, 0}}, color = {0, 0, 127}));
-  connect(QGas.y, reaQHea.u) annotation(
-    Line(points = {{51, 60}, {58, 60}}, color = {0, 0, 127}));
-  connect(TSetCoo.y, oveTSetCoo.u) annotation(
-    Line(points = {{-159, -50}, {-122, -50}}, color = {0, 0, 127}));
   connect(conPI.y, oveTSetSup.u) annotation(
     Line(points = {{-59, 80}, {-30, 80}}, color = {0, 0, 127}));
   connect(offSet.y, add.u1) annotation(
@@ -205,8 +197,6 @@ equation
     Line(points = {{-59, 12}, {-54, 12}, {-54, 60}, {-70, 60}, {-70, 68}}, color = {0, 0, 127}));
   connect(sim.weaDatBus, weaSta.weaBus) annotation(
     Line(points = {{-160.1, 90}, {-150, 90}, {-150, 89.9}, {-139.9, 89.9}}, color = {255, 204, 51}, thickness = 0.5));
-  connect(TSetHea.y, add.u2) annotation(
-    Line(points = {{-159, -80}, {-156, -80}, {-156, -86}, {-152, -86}}, color = {0, 0, 127}));
   connect(add.y, oveTSetHea.u) annotation(
     Line(points = {{-129, -80}, {-122, -80}}, color = {0, 0, 127}));
   connect(oveTSetSup.y, hea.TSet) annotation(
@@ -221,6 +211,12 @@ equation
     Line(points = {{-99, -80}, {-94, -80}, {-94, 80}, {-82, 80}}, color = {0, 0, 127}));
   connect(yOcc, case900Template.yOcc) annotation(
     Line(points = {{-84, 36}, {-56, 36}, {-56, 14}, {-58, 14}}, color = {0, 0, 127}, pattern = LinePattern.Solid));
+  connect(TSetCoo, oveTSetCoo.u) annotation(
+    Line(points = {{-174, -52}, {-132, -52}, {-132, -50}, {-122, -50}}, color = {0, 0, 127}, pattern = LinePattern.Solid));
+  connect(TSetHea, add.u2) annotation(
+    Line(points = {{-174, -86}, {-152, -86}}, color = {0, 0, 127}, pattern = LinePattern.Solid));
+  connect(QGas, reaQHea.u) annotation(
+    Line(points = {{36, 62}, {58, 62}, {58, 60}}, color = {0, 0, 127}, pattern = LinePattern.Solid));
   annotation (
     experiment(
       StopTime=31500000,
