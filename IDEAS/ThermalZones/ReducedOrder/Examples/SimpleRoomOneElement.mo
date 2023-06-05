@@ -6,7 +6,7 @@ model SimpleRoomOneElement
   BoundaryConditions.WeatherData.ReaderTMY3 weaDat(
     HInfHorSou = IDEAS.BoundaryConditions.Types.DataSource.Input, HSou = IDEAS.BoundaryConditions.Types.RadiationDataSource.Input_HDirNor_HGloHor, TBlaSkySou = IDEAS.BoundaryConditions.Types.DataSource.Input, TDewPoiSou = IDEAS.BoundaryConditions.Types.DataSource.Input, TDryBulSou = IDEAS.BoundaryConditions.Types.DataSource.Input,calTSky=IDEAS.BoundaryConditions.Types.SkyTemperatureCalculation.HorizontalRadiation, ceiHeiSou = IDEAS.BoundaryConditions.Types.DataSource.Input,
     computeWetBulbTemperature=false,
-    filNam="/home/developer/.openmodelica/libraries/IDEAS-parest/DEAS/Resources/weatherdata/USA_CA_San.Francisco.Intl.AP.724940_TMY3.mos", opaSkyCovSou = IDEAS.BoundaryConditions.Types.DataSource.Input, pAtmSou = IDEAS.BoundaryConditions.Types.DataSource.Input, relHumSou = IDEAS.BoundaryConditions.Types.DataSource.Input, totSkyCovSou = IDEAS.BoundaryConditions.Types.DataSource.Input, winDirSou = IDEAS.BoundaryConditions.Types.DataSource.Input, winSpeSou = IDEAS.BoundaryConditions.Types.DataSource.Input)
+    filNam= "/home/developer/.openmodelica/libraries/IDEAS-parest/IDEAS/Resources/weatherdata/USA_CA_San.Francisco.Intl.AP.724940_TMY3.mos", opaSkyCovSou = IDEAS.BoundaryConditions.Types.DataSource.Input, pAtmSou = IDEAS.BoundaryConditions.Types.DataSource.Input, relHumSou = IDEAS.BoundaryConditions.Types.DataSource.Input, totSkyCovSou = IDEAS.BoundaryConditions.Types.DataSource.Input, winDirSou = IDEAS.BoundaryConditions.Types.DataSource.Input, winSpeSou = IDEAS.BoundaryConditions.Types.DataSource.Input)
     "Weather data reader"
     annotation (Placement(transformation(extent={{-98,52},{-78,72}})));
   BoundaryConditions.SolarIrradiation.DiffusePerez HDifTil[2](
